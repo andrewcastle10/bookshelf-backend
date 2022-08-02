@@ -19,12 +19,23 @@
 # https://webservices.amazon.com/paapi5/documentation/search-items.html
 
 
-from flask import Flask, jsonify
+from flask import Flask, jsonify, request
+from DataGetters import GetBookData
 
 app = Flask(__name__)
 
 @app.route("/test")
 def hello_world():
     return jsonify("My Message!", 201)
+
+
+
+@app.route("/search", methods=["POST"], strict_slashes=False)
+def search():
+    search_term = request.json[0]
+    print("Search term: " + search_term)
+    data = GetBookData(search_term)
+    return jsonify(data, 201)
+
 
 
