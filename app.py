@@ -20,7 +20,7 @@
 
 
 from flask import Flask, jsonify, request
-from DataGetters import GetBookData
+from DataGetters import GetBookData, GetBookCovers
 
 app = Flask(__name__)
 
@@ -35,7 +35,11 @@ def search():
     search_term = request.json[0]
     print("Search term: " + search_term)
     data = GetBookData(search_term)
-    return jsonify(data, 201)
+
+    covers = GetBookCovers(data)
+    print(covers)
+
+    return covers.to_json(orient="records")
 
 
 
